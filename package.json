@@ -1,0 +1,26 @@
+{
+  "name": "suncare-lookup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "http-server . -c-1 -p 5173",
+    "start": "npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d6ewasupervisor-netizen/Suncare-Lookup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/d6ewasupervisor-netizen/Suncare-Lookup/issues"
+  },
+  "homepage": "https://github.com/d6ewasupervisor-netizen/Suncare-Lookup#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
