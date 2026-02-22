@@ -16,6 +16,13 @@ def normalize_upc(upc_raw):
     clean = upc_raw.replace('=', '').replace('"', '').strip().lstrip('0')
     return clean
 
+dimensions = {}
+dimensions_path = os.path.join('data', 'dimensions.json')
+if os.path.exists(dimensions_path):
+    with open(dimensions_path, 'r') as f:
+        data = json.load(f)
+        dimensions = data.get('dimensions', {})
+
 def get_product_name(upc, default_name):
     clean_upc = normalize_upc(upc)
     if clean_upc in product_descriptions:
@@ -48,6 +55,10 @@ def process_csv_layout(csv_path, id_val, name_val, subtitle_val, pog_num, live_d
                 "isChange": False, 
                 "srp": "SRP" if row.get('SRP') == 'SRP' else ""
             }
+            if upc in dimensions:
+                dims = dimensions[upc]
+                p["widthIn"] = dims.get("widthIn")
+                p["heightIn"] = dims.get("heightIn")
             products.append(p)
             
     products.sort(key=lambda x: (x['segment'], x['shelf'], x['position']))

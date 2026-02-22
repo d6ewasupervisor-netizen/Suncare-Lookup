@@ -182,11 +182,24 @@ async function init() {
   }
 }
 
-function getShelfUnitWidth(container, maxFacings) {
+const DEFAULT_WIDTH_IN = 2.5;
+const DEFAULT_HEIGHT_IN = 6.0;
+const BASE_PX_PER_IN = 12;
+
+function getProductWidthIn(p) {
+  const widthIn = Number(p.widthIn);
+  return Number.isFinite(widthIn) ? widthIn : DEFAULT_WIDTH_IN;
+}
+
+function getProductHeightIn(p) {
+  const heightIn = Number(p.heightIn);
+  return Number.isFinite(heightIn) ? heightIn : DEFAULT_HEIGHT_IN;
+}
+
+function getTargetRowWidthPx(container, maxShelfWidthIn) {
   const containerWidth = container ? container.clientWidth : window.innerWidth;
-  const targetColumns = Math.min(maxFacings, 8);
-  const rawWidth = Math.floor((containerWidth - 16) / Math.max(1, targetColumns));
-  return Math.max(28, Math.min(56, rawWidth));
+  if (!maxShelfWidthIn) return containerWidth;
+  return Math.max(containerWidth, Math.round(maxShelfWidthIn * BASE_PX_PER_IN));
 }
 
 // Render Landing
@@ -336,7 +349,7 @@ function renderShelves() {
   // Or just flex: 1 for each facing.
   
   const shelves = [];
-  let maxFacings = 1;
+  let maxShelfWidthIn = 0;
 
   for (let s = maxShelf; s >= 1; s--) {
     const shelfProducts = sideProducts
@@ -349,24 +362,27 @@ function renderShelves() {
     if (currentFilter === 'srp') displayProducts = displayProducts.filter(p => p.srp);
 
     const facings = displayProducts.reduce((acc, p) => acc + p.facings, 0);
-    maxFacings = Math.max(maxFacings, facings);
+    const shelfWidthIn = displayProducts.reduce(
+      (acc, p) => acc + getProductWidthIn(p) * p.facings,
+      0
+    );
+    maxShelfWidthIn = Math.max(maxShelfWidthIn, shelfWidthIn);
 
-    shelves.push({ s, displayProducts, facings });
+    shelves.push({ s, displayProducts, facings, shelfWidthIn });
   }
 
-  const unitWidth = getShelfUnitWidth(container, maxFacings);
+  const targetRowWidthPx = getTargetRowWidthPx(container, maxShelfWidthIn);
 
-  shelves.forEach(({ s, displayProducts, facings }) => {
+  shelves.forEach(({ s, displayProducts, facings, shelfWidthIn }) => {
     // Always render shelf container, even if empty
     const shelfDiv = document.createElement('div');
     shelfDiv.className = 'shelf-container';
 
     const label = s === maxShelf ? 'TOP' : (s === 1 ? 'BOTTOM' : '');
 
-    const missingFacings = Math.max(0, maxFacings - facings);
-    const spacerHtml = missingFacings
-      ? `<div class="shelf-spacer" style="--facings: ${missingFacings};" aria-hidden="true"></div>`
-      : '';
+    const shelfScale = shelfWidthIn > 0
+      ? targetRowWidthPx / shelfWidthIn
+      : BASE_PX_PER_IN;
 
     shelfDiv.innerHTML = `
       <div class="shelf-header">
@@ -375,7 +391,6 @@ function renderShelves() {
       </div>
       <div class="product-shelf-row" id="shelf-row-${s}">
         ${displayProducts.map(p => createProductCard(p)).join('')}
-        ${spacerHtml}
       </div>
     `;
 
@@ -383,8 +398,8 @@ function renderShelves() {
 
     const row = document.getElementById(`shelf-row-${s}`);
     if (row) {
-      row.style.setProperty('--unit-width', `${unitWidth}px`);
-      row.style.setProperty('--shelf-facings', `${maxFacings}`);
+      row.style.setProperty('--row-width', `${targetRowWidthPx}px`);
+      row.style.setProperty('--inch-scale', `${shelfScale}px`);
     }
   });
 }
@@ -412,7 +427,7 @@ function createProductCard(p) {
   // Width style: flex-grow: facings
   // Also min-width to ensure visibility
   return `
-    <div class="product-card-shelf" style="--facings: ${p.facings};" onclick="openProductOverlay('${p.upc}')">
+    <div class="product-card-shelf" style="--facings: ${p.facings}; --width-in: ${getProductWidthIn(p)}; --height-in: ${getProductHeightIn(p)};" onclick="openProductOverlay('${p.upc}')">
       <div class="product-img-group">
         ${imagesHtml}
         ${p.isNew ? '<span class="badge new">NEW</span>' : ''}

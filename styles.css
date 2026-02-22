@@ -253,7 +253,7 @@ header {
   align-items: flex-end; 
   gap: 2px;
   flex-wrap: nowrap;
-  width: calc(var(--shelf-facings, 1) * var(--unit-width, 40px));
+  width: var(--row-width, 100%);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 2px;
@@ -276,17 +276,13 @@ header {
   flex-direction: column;
   justify-content: flex-end; /* Push content to bottom */
   flex: 0 0 auto;
-  width: calc(var(--facings, 1) * var(--unit-width, 40px));
+  width: calc(var(--width-in, 2.5) * var(--facings, 1) * var(--inch-scale, 12px));
+  height: calc(var(--height-in, 6) * var(--inch-scale, 12px));
   min-width: 30px; /* Minimum clickable width */
   border-left: 1px solid rgba(255,255,255,0.1); /* Separator */
   border-right: 1px solid rgba(255,255,255,0.1);
 }
 
-.shelf-spacer {
-  flex: 0 0 auto;
-  width: calc(var(--facings, 1) * var(--unit-width, 40px));
-  min-height: 1px;
-}
 
 .product-img-group {
   display: flex;
@@ -302,12 +298,12 @@ header {
   padding: 0;
   position: relative;
   width: 100%;
+  height: 100%;
 }
 
 .product-img {
-  width: 100%; /* Stretch to fill the flex unit width */
-  height: auto; 
-  max-height: 120px; /* Constrain height so tall items don't break layout */
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   display: block;
   /* Ensure bottom anchor */

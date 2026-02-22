@@ -23,7 +23,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.08,
+      "heightIn": 7.3
     },
     {
       "upc": "7965602560",
@@ -35,7 +37,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 4.19,
+      "heightIn": 7.72
     },
     {
       "upc": "7965602580",
@@ -47,7 +51,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.35,
+      "heightIn": 9.06
     },
     {
       "upc": "7965601806",
@@ -59,7 +65,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 7.36
     },
     {
       "upc": "7965614030",
@@ -71,7 +79,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.35,
+      "heightIn": 7.91
     },
     {
       "upc": "7965604662",
@@ -83,7 +93,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": "SRP"
+      "srp": "SRP",
+      "widthIn": 3.2,
+      "heightIn": 3.95
     },
     {
       "upc": "7214002739",
@@ -95,7 +107,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.7,
+      "heightIn": 7.04
     },
     {
       "upc": "8680011082",
@@ -107,7 +121,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.4,
+      "heightIn": 6
     },
     {
       "upc": "81003592138",
@@ -119,7 +135,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.9,
+      "heightIn": 8.05
     },
     {
       "upc": "87176000278",
@@ -131,7 +149,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 5.7
     },
     {
       "upc": "87176000279",
@@ -143,7 +163,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": "SRP"
+      "srp": "SRP",
+      "widthIn": 3.5,
+      "heightIn": 6.7
     },
     {
       "upc": "87176000047",
@@ -155,7 +177,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.8,
+      "heightIn": 6.5
     },
     {
       "upc": "507000316193",
@@ -167,7 +191,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.2,
+      "heightIn": 9
     },
     {
       "upc": "36519750210",
@@ -179,7 +205,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 5.69
     },
     {
       "upc": "7965600008",
@@ -191,7 +219,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.67,
+      "heightIn": 8.03
     },
     {
       "upc": "7965600114",
@@ -203,7 +233,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.74,
+      "heightIn": 7.5
     },
     {
       "upc": "7548608754",
@@ -215,7 +247,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 3.3,
+      "heightIn": 8.41
     },
     {
       "upc": "7548608989",
@@ -227,7 +261,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.08,
+      "heightIn": 7.75
     },
     {
       "upc": "7548609114",
@@ -239,7 +275,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.09,
+      "heightIn": 7.75
     },
     {
       "upc": "7548609192",
@@ -251,7 +289,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.09,
+      "heightIn": 7.75
     },
     {
       "upc": "7548613763",
@@ -263,7 +303,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.09,
+      "heightIn": 7.75
     },
     {
       "upc": "7548608747",
@@ -275,7 +317,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.68,
+      "heightIn": 7.06
     },
     {
       "upc": "7548608760",
@@ -287,7 +331,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.68,
+      "heightIn": 7.06
     },
     {
       "upc": "7965614431",
@@ -299,7 +345,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.09,
+      "heightIn": 7.36
     },
     {
       "upc": "7965614432",
@@ -311,7 +359,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 3,
+      "heightIn": 6.6
     },
     {
       "upc": "7965614433",
@@ -323,7 +373,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.29,
+      "heightIn": 5.5
     },
     {
       "upc": "84015560316",
@@ -335,7 +387,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 7.5
     },
     {
       "upc": "84015560315",
@@ -347,7 +401,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.7,
+      "heightIn": 6.5
     },
     {
       "upc": "84015560314",
@@ -359,7 +415,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 4.3
     },
     {
       "upc": "81011561524",
@@ -371,7 +429,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 7.31
     },
     {
       "upc": "81011561523",
@@ -383,7 +443,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 5.5
     },
     {
       "upc": "8680006797",
@@ -395,7 +457,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.77,
+      "heightIn": 7.44
     },
     {
       "upc": "8680087025",
@@ -407,7 +471,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.2,
+      "heightIn": 5.14
     },
     {
       "upc": "8680086031",
@@ -419,7 +485,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.5,
+      "heightIn": 6
     },
     {
       "upc": "8680007270",
@@ -431,7 +499,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.77,
+      "heightIn": 7.44
     },
     {
       "upc": "8680011282",
@@ -443,7 +513,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.5,
+      "heightIn": 6
     },
     {
       "upc": "8680006650",
@@ -455,7 +527,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 4.63
     },
     {
       "upc": "8680011080",
@@ -467,7 +541,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": "SRP"
+      "srp": "SRP",
+      "widthIn": 2.46,
+      "heightIn": 5.89
     },
     {
       "upc": "7214003926",
@@ -479,7 +555,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 4,
+      "heightIn": 7.39
     },
     {
       "upc": "7214003927",
@@ -491,7 +569,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.08,
+      "heightIn": 7.39
     },
     {
       "upc": "7214002761",
@@ -503,7 +583,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.75,
+      "heightIn": 7.88
     },
     {
       "upc": "7214003925",
@@ -515,7 +597,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 4.2,
+      "heightIn": 7.38
     },
     {
       "upc": "7214003912",
@@ -527,7 +611,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.08,
+      "heightIn": 7.39
     },
     {
       "upc": "7214002747",
@@ -539,7 +625,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.75,
+      "heightIn": 7.88
     },
     {
       "upc": "7965603165",
@@ -551,7 +639,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 4.22,
+      "heightIn": 7.75
     },
     {
       "upc": "7965603178",
@@ -563,7 +653,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 7.36
     },
     {
       "upc": "7965604971",
@@ -575,7 +667,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.27,
+      "heightIn": 7.5
     },
     {
       "upc": "7965613089",
@@ -587,7 +681,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 4.75
     },
     {
       "upc": "8680087273",
@@ -599,7 +695,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 7.3
     },
     {
       "upc": "8680011254",
@@ -611,7 +709,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 7.3
     },
     {
       "upc": "8680011253",
@@ -623,7 +723,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.5,
+      "heightIn": 6.65
     },
     {
       "upc": "8680087275",
@@ -635,7 +737,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 4.28
     },
     {
       "upc": "8680087274",
@@ -647,7 +751,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 7.3
     },
     {
       "upc": "8680007852",
@@ -659,7 +765,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 5,
+      "heightIn": 6.75
     },
     {
       "upc": "8680087272",
@@ -671,7 +779,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.3,
+      "heightIn": 6.65
     },
     {
       "upc": "7214003826",
@@ -683,7 +793,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.37,
+      "heightIn": 6.12
     },
     {
       "upc": "7214002765",
@@ -695,7 +807,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.09,
+      "heightIn": 7.39
     },
     {
       "upc": "7214002748",
@@ -707,7 +821,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.64,
+      "heightIn": 7.88
     },
     {
       "upc": "7214002770",
@@ -719,7 +835,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.08,
+      "heightIn": 7.39
     },
     {
       "upc": "7214003520",
@@ -731,7 +849,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 7.38
     },
     {
       "upc": "7214003205",
@@ -743,7 +863,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.9,
+      "heightIn": 7.5
     },
     {
       "upc": "7965603223",
@@ -755,7 +877,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.35,
+      "heightIn": 9.06
     },
     {
       "upc": "7965601332",
@@ -767,7 +891,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 4.2,
+      "heightIn": 7.75
     },
     {
       "upc": "7965603179",
@@ -779,7 +905,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 7.36
     },
     {
       "upc": "7965604972",
@@ -791,7 +919,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.27,
+      "heightIn": 7.5
     },
     {
       "upc": "7965614029",
@@ -803,7 +933,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.35,
+      "heightIn": 7.91
     },
     {
       "upc": "7965614293",
@@ -815,7 +947,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 5.38
     },
     {
       "upc": "7965605080",
@@ -827,7 +961,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 7.6
     },
     {
       "upc": "7965604968",
@@ -839,7 +975,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.2,
+      "heightIn": 5.38
     },
     {
       "upc": "8680010038",
@@ -851,7 +989,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.77,
+      "heightIn": 7.9
     },
     {
       "upc": "8680068785",
@@ -863,7 +1003,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.3,
+      "heightIn": 5.96
     },
     {
       "upc": "8680068790",
@@ -875,7 +1017,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.4,
+      "heightIn": 5.96
     },
     {
       "upc": "8680010040",
@@ -887,7 +1031,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.77,
+      "heightIn": 7.4
     },
     {
       "upc": "8680068770",
@@ -899,7 +1045,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.44,
+      "heightIn": 5.96
     },
     {
       "upc": "8680010274",
@@ -911,7 +1059,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 4.28
     },
     {
       "upc": "87176000196",
@@ -923,7 +1073,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 7.5
     },
     {
       "upc": "87176000044",
@@ -935,7 +1087,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.8,
+      "heightIn": 6.5
     },
     {
       "upc": "87176000309",
@@ -947,7 +1101,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 3.4
     },
     {
       "upc": "87176000197",
@@ -959,7 +1115,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 7.5
     },
     {
       "upc": "87176000045",
@@ -971,7 +1129,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.8,
+      "heightIn": 6.5
     },
     {
       "upc": "87176000208",
@@ -983,7 +1143,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 7.5
     },
     {
       "upc": "87176000046",
@@ -995,7 +1157,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.8,
+      "heightIn": 6.5
     },
     {
       "upc": "87176000297",
@@ -1007,7 +1171,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.25,
+      "heightIn": 5.7
     },
     {
       "upc": "84015560061",
@@ -1019,7 +1185,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 6.5
     },
     {
       "upc": "87176000753",
@@ -1031,7 +1199,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 6.3
     },
     {
       "upc": "87176000474",
@@ -1043,7 +1213,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 7.5
     },
     {
       "upc": "507000316197",
@@ -1055,7 +1227,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 7.32
     },
     {
       "upc": "507000316191",
@@ -1067,7 +1241,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 8.25
     },
     {
       "upc": "507000316198",
@@ -1079,7 +1255,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.1,
+      "heightIn": 7.32
     },
     {
       "upc": "507000316190",
@@ -1091,7 +1269,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.11,
+      "heightIn": 8.2
     },
     {
       "upc": "507000316192",
@@ -1103,7 +1283,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.3,
+      "heightIn": 4.56
     },
     {
       "upc": "30316208105",
@@ -1115,7 +1297,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.8,
+      "heightIn": 7.5
     },
     {
       "upc": "30316208005",
@@ -1127,7 +1311,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.8,
+      "heightIn": 7.5
     },
     {
       "upc": "30316208305",
@@ -1139,7 +1325,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.8,
+      "heightIn": 7.5
     },
     {
       "upc": "30316204630",
@@ -1151,7 +1339,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.5,
+      "heightIn": 5.5
     },
     {
       "upc": "30316201305",
@@ -1163,7 +1353,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": "SRP"
+      "srp": "SRP",
+      "widthIn": 3.38,
+      "heightIn": 6.75
     },
     {
       "upc": "934710800213",
@@ -1175,7 +1367,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": "SRP"
+      "srp": "SRP",
+      "widthIn": 4,
+      "heightIn": 10
     },
     {
       "upc": "934710804649",
@@ -1187,7 +1381,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 3.5,
+      "heightIn": 7.58
     },
     {
       "upc": "934710801686",
@@ -1199,7 +1395,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 3.5,
+      "heightIn": 7.53
     },
     {
       "upc": "934710800286",
@@ -1211,7 +1409,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.95,
+      "heightIn": 7.88
     },
     {
       "upc": "934710800873",
@@ -1223,7 +1423,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.95,
+      "heightIn": 8
     },
     {
       "upc": "81002017596",
@@ -1235,7 +1437,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.89,
+      "heightIn": 7.83
     },
     {
       "upc": "81002017595",
@@ -1247,7 +1451,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.89,
+      "heightIn": 7.83
     },
     {
       "upc": "5440233091",
@@ -1259,7 +1465,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 8
     },
     {
       "upc": "5440233079",
@@ -1271,7 +1479,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.8,
+      "heightIn": 7.88
     },
     {
       "upc": "7548608743",
@@ -1283,7 +1493,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.74,
+      "heightIn": 6.86
     },
     {
       "upc": "7965604663",
@@ -1295,7 +1507,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 7.36
     },
     {
       "upc": "7965604647",
@@ -1307,7 +1521,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.13,
+      "heightIn": 7.36
     },
     {
       "upc": "7965600781",
@@ -1319,7 +1535,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 3,
+      "heightIn": 6.4
     },
     {
       "upc": "7214003823",
@@ -1331,7 +1549,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2.08,
+      "heightIn": 7.29
     },
     {
       "upc": "70906900006",
@@ -1343,7 +1563,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 6.81
     },
     {
       "upc": "87176000183",
@@ -1355,7 +1577,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 2,
+      "heightIn": 7.5
     },
     {
       "upc": "506048979399",
@@ -1367,7 +1591,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 3.03,
+      "heightIn": 8.52
     },
     {
       "upc": "506048979383",
@@ -1379,7 +1605,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 3.03,
+      "heightIn": 8.52
     },
     {
       "upc": "506048979388",
@@ -1391,7 +1619,9 @@
       "isNew": false,
       "isMove": false,
       "isChange": false,
-      "srp": ""
+      "srp": "",
+      "widthIn": 1.94,
+      "heightIn": 8.03
     }
   ]
 }
