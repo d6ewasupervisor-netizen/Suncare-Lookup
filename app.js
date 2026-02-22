@@ -8,6 +8,7 @@ let products = [];
 let upcRedirects = {};
 let html5QrCode;
 let deferredPrompt;
+let resizeBound = false;
 
 // Cache
 const CACHE_NAME = 'suncare-pog-v1';
@@ -159,6 +160,16 @@ const pdfViewerTemplate = (url) => `
   </div>
 `;
 
+function showToast(message, duration = 1500) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+
+  toast.innerText = message;
+  toast.classList.add('show');
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer = setTimeout(() => toast.classList.remove('show'), duration);
+}
+
 // Initialize
 async function init() {
   try {
@@ -169,6 +180,13 @@ async function init() {
     console.error("Failed to load stores", e);
     app.innerHTML = `<div style="padding:20px; text-align:center;">Failed to load app data. Please refresh.</div>`;
   }
+}
+
+function getShelfUnitWidth(container, maxFacings) {
+  const containerWidth = container ? container.clientWidth : window.innerWidth;
+  const targetColumns = Math.min(maxFacings, 8);
+  const rawWidth = Math.floor((containerWidth - 16) / Math.max(1, targetColumns));
+  return Math.max(28, Math.min(56, rawWidth));
 }
 
 // Render Landing
@@ -220,6 +238,14 @@ function loadApp(storeId, data) {
   renderBottomNav();
   setupGestures();
   setupPdfAccess();
+  setupPullDownProtection();
+
+  if (!resizeBound) {
+    window.addEventListener('resize', () => {
+      if (planogram) renderShelves();
+    });
+    resizeBound = true;
+  }
 }
 
 function setupPdfAccess() {
@@ -309,25 +335,34 @@ function renderShelves() {
   // Let's find the max facings on any shelf to set a relative width unit
   // Or just flex: 1 for each facing.
   
+  const shelves = [];
+  let maxFacings = 1;
+
   for (let s = maxShelf; s >= 1; s--) {
     const shelfProducts = sideProducts
       .filter(p => p.shelf === s)
       .sort((a, b) => a.position - b.position);
-      
+
     // Filter by type if needed
     let displayProducts = shelfProducts;
     if (currentFilter === 'new') displayProducts = displayProducts.filter(p => p.isNew);
     if (currentFilter === 'srp') displayProducts = displayProducts.filter(p => p.srp);
-    
+
+    const facings = displayProducts.reduce((acc, p) => acc + p.facings, 0);
+    maxFacings = Math.max(maxFacings, facings);
+
+    shelves.push({ s, displayProducts, facings });
+  }
+
+  const unitWidth = getShelfUnitWidth(container, maxFacings);
+
+  shelves.forEach(({ s, displayProducts, facings }) => {
     // Always render shelf container, even if empty
     const shelfDiv = document.createElement('div');
     shelfDiv.className = 'shelf-container';
-    
+
     const label = s === maxShelf ? 'TOP' : (s === 1 ? 'BOTTOM' : '');
-    
-    // Count facings
-    const facings = displayProducts.reduce((acc, p) => acc + p.facings, 0);
-    
+
     shelfDiv.innerHTML = `
       <div class="shelf-header">
         <span>Shelf ${s} ${label}</span>
@@ -337,25 +372,15 @@ function renderShelves() {
         ${displayProducts.map(p => createProductCard(p)).join('')}
       </div>
     `;
-    
+
     container.appendChild(shelfDiv);
 
-    // After rendering, apply zoom listener
     const row = document.getElementById(`shelf-row-${s}`);
-    if(row) {
-        row.addEventListener('click', (e) => {
-            // Check if clicked strictly on a product card, handled by onclick attribute
-            // If we want pinch zoom, we need CSS touch-action or meta viewport
-            // The prompt asks for "zoom in closer view"
-            // The viewport meta allows zoom.
-            // But if we want specific zoom interaction, we can add a class.
-            // For now, reliance on native browser pinch-zoom is best for "browse" view.
-            // However, the user said "allow the user to zoom in for a closer view OR click on it for expanded details"
-            // So click -> details (already done).
-            // Zoom -> Pinch (standard).
-        });
+    if (row) {
+      row.style.setProperty('--unit-width', `${unitWidth}px`);
+      row.style.setProperty('--shelf-facings', `${maxFacings}`);
     }
-  }
+  });
 }
 
 function createProductCard(p) {
@@ -381,7 +406,7 @@ function createProductCard(p) {
   // Width style: flex-grow: facings
   // Also min-width to ensure visibility
   return `
-    <div class="product-card-shelf" style="flex-grow: ${p.facings}; flex-basis: ${p.facings * 40}px;" onclick="openProductOverlay('${p.upc}')">
+    <div class="product-card-shelf" style="--facings: ${p.facings};" onclick="openProductOverlay('${p.upc}')">
       <div class="product-img-group">
         ${imagesHtml}
         ${p.isNew ? '<span class="badge new">NEW</span>' : ''}
@@ -414,10 +439,7 @@ function changeSide(side) {
   renderBottomNav();
   
   // Toast
-  const toast = document.getElementById('toast');
-  toast.innerText = `Side ${side}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1500);
+  showToast(`Side ${side}`);
   
   // Haptic
   if (navigator.vibrate) navigator.vibrate(30);
@@ -625,6 +647,45 @@ function openPdfViewer() {
   document.getElementById('close-pdf').onclick = () => {
     document.querySelector('.pdf-viewer').remove();
   };
+}
+
+function setupPullDownProtection() {
+  let startY = 0;
+  let tracking = false;
+  let armed = false;
+  let armedTimer = null;
+
+  document.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    const target = e.target;
+    if (target.closest('.overlay, .pdf-viewer')) return;
+    startY = e.touches[0].clientY;
+    tracking = window.scrollY === 0;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!tracking) return;
+    const target = e.target;
+    if (target.closest('.overlay, .pdf-viewer')) return;
+
+    const deltaY = e.touches[0].clientY - startY;
+    if (deltaY > 40) {
+      if (!armed) {
+        armed = true;
+        showToast('Pull down again to refresh');
+        clearTimeout(armedTimer);
+        armedTimer = setTimeout(() => { armed = false; }, 2000);
+        e.preventDefault();
+      } else {
+        armed = false;
+        clearTimeout(armedTimer);
+      }
+    }
+  }, { passive: false });
+
+  document.addEventListener('touchend', () => {
+    tracking = false;
+  }, { passive: true });
 }
 
 // Start

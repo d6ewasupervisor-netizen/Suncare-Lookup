@@ -26,6 +26,7 @@ body {
   -webkit-font-smoothing: antialiased;
   padding-bottom: 70px; /* Space for bottom nav */
   overscroll-behavior-y: contain; /* Prevent pull-to-refresh */
+  touch-action: pan-x pan-y;
 }
 
 h1, h2, h3, h4 {
@@ -218,7 +219,7 @@ header {
 /* Shelf Grid & Rows */
 .browse-view {
   padding: var(--spacing);
-  overflow-x: auto; /* Allow side scrolling if needed */
+  overflow-x: hidden;
 }
 
 /* Shelf Container */
@@ -251,10 +252,13 @@ header {
   flex-direction: row;
   align-items: flex-end; 
   gap: 2px;
-  width: 100%;
+  flex-wrap: nowrap;
+  width: calc(var(--shelf-facings, 1) * var(--unit-width, 40px));
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   padding-bottom: 2px;
   min-height: 100px; /* Ensure some height */
+  touch-action: pan-x;
 }
 
 /* 
@@ -271,6 +275,8 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: flex-end; /* Push content to bottom */
+  flex: 0 0 auto;
+  width: calc(var(--facings, 1) * var(--unit-width, 40px));
   min-width: 30px; /* Minimum clickable width */
   border-left: 1px solid rgba(255,255,255,0.1); /* Separator */
   border-right: 1px solid rgba(255,255,255,0.1);
