@@ -363,6 +363,11 @@ function renderShelves() {
 
     const label = s === maxShelf ? 'TOP' : (s === 1 ? 'BOTTOM' : '');
 
+    const missingFacings = Math.max(0, maxFacings - facings);
+    const spacerHtml = missingFacings
+      ? `<div class="shelf-spacer" style="--facings: ${missingFacings};" aria-hidden="true"></div>`
+      : '';
+
     shelfDiv.innerHTML = `
       <div class="shelf-header">
         <span>Shelf ${s} ${label}</span>
@@ -370,6 +375,7 @@ function renderShelves() {
       </div>
       <div class="product-shelf-row" id="shelf-row-${s}">
         ${displayProducts.map(p => createProductCard(p)).join('')}
+        ${spacerHtml}
       </div>
     `;
 
