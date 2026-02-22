@@ -61,6 +61,7 @@ const headerTemplate = (storeId, pog) => `
       <div class="chip active" data-filter="all">All</div>
       <div class="chip" data-filter="new">🟢 New</div>
       <div class="chip" data-filter="srp">🟣 SRP</div>
+      <div class="chip" id="pog-pdf-chip">📄 POG PDF</div>
     </div>
   </header>
 `;
@@ -133,7 +134,7 @@ const productOverlayTemplate = (p, redirect=null) => `
         </div>
       </div>
       
-      <div class="mini-pog" id="mini-pog">
+      <div class="mini-pog" id="mini-pog-container">
         <!-- Mini shelf layout -->
       </div>
       
@@ -212,9 +213,16 @@ function loadApp(storeId, data) {
   renderShelves();
   renderBottomNav();
   setupGestures();
-  
-  // PDF Listener
-  // Check if pdf viewer exists (it's dynamic)
+  setupPdfAccess();
+}
+
+function setupPdfAccess() {
+    const pdfChip = document.getElementById('pog-pdf-chip');
+    if(pdfChip) {
+        pdfChip.addEventListener('click', () => {
+             openPdfViewer();
+        });
+    }
 }
 
 function setupNavigation() {
@@ -264,7 +272,7 @@ function setupNavigation() {
 }
 
 function setupFilters() {
-  const chips = document.querySelectorAll('.chip');
+  const chips = document.querySelectorAll('.chip:not(#pog-pdf-chip)'); // Exclude PDF button
   chips.forEach(c => {
     c.addEventListener('click', () => {
       chips.forEach(x => x.classList.remove('active'));
@@ -283,8 +291,17 @@ function renderShelves() {
   const sideProducts = products.filter(p => p.segment === currentSide);
   
   // Get shelves (max shelf to 1)
-  const maxShelf = planogram.shelves; // e.g. 5
-  // We want to render top (5) to bottom (1)
+  const maxShelf = planogram.shelves; // e.g. 5 or 6
+  // We want to render top (maxShelf) to bottom (1)
+  
+  // Determine widest shelf for scaling
+  // We need to know the total width (sum of facings?) or just count of items?
+  // Prompt says: "Scale items so that the shelf width is the same for every shelf"
+  // "All items on a shelf must be visible from main browse view"
+  // This implies flexbox with shrink or fixed width per facing unit.
+  
+  // Let's find the max facings on any shelf to set a relative width unit
+  // Or just flex: 1 for each facing.
   
   for (let s = maxShelf; s >= 1; s--) {
     const shelfProducts = sideProducts
@@ -296,9 +313,7 @@ function renderShelves() {
     if (currentFilter === 'new') displayProducts = displayProducts.filter(p => p.isNew);
     if (currentFilter === 'srp') displayProducts = displayProducts.filter(p => p.srp);
     
-    // Always render shelf container, even if empty, to show structure? 
-    // Or just skip? Let's show header.
-    
+    // Always render shelf container, even if empty
     const shelfDiv = document.createElement('div');
     shelfDiv.className = 'shelf-container';
     
@@ -312,34 +327,62 @@ function renderShelves() {
         <span>Shelf ${s} ${label}</span>
         <span>${displayProducts.length} items · ${facings} facings</span>
       </div>
-      <div class="product-grid">
+      <div class="product-shelf-row" id="shelf-row-${s}">
         ${displayProducts.map(p => createProductCard(p)).join('')}
       </div>
     `;
     
     container.appendChild(shelfDiv);
+
+    // After rendering, apply zoom listener
+    const row = document.getElementById(`shelf-row-${s}`);
+    if(row) {
+        row.addEventListener('click', (e) => {
+            // Check if clicked strictly on a product card, handled by onclick attribute
+            // If we want pinch zoom, we need CSS touch-action or meta viewport
+            // The prompt asks for "zoom in closer view"
+            // The viewport meta allows zoom.
+            // But if we want specific zoom interaction, we can add a class.
+            // For now, reliance on native browser pinch-zoom is best for "browse" view.
+            // However, the user said "allow the user to zoom in for a closer view OR click on it for expanded details"
+            // So click -> details (already done).
+            // Zoom -> Pinch (standard).
+        });
+    }
   }
 }
 
 function createProductCard(p) {
-  // Handle facings? 
-  // Prompt says: "Multi-facing products: Images repeat side-by-side... wrapped in a single tap target"
-  // For grid layout, it might be easier to just show one card. 
-  // Let's stick to one card but maybe indicate facings visually or just one image.
-  // "Images repeat side-by-side" suggests inside the card.
+  // Use flex-grow based on facings
+  // Also handle vertical alignment: "all images need to be bottom orientation for each cell"
+  // This is handled by CSS: align-items: flex-end in row
   
-  // Simple card for now
+  // Also "allow the user to zoom in for a closer view" -> click expands overlay
+  
+  // If facing > 1, repeat image inside card? 
+  // "Multi-facing products: Images repeat side-by-side to show facing count, wrapped in a single tap target"
+  
+  let imagesHtml = '';
+  // Limit max height relative to shelf?
+  // We want images intelligently scaled.
+  // In a flex row, if we set height: 100%, it might stretch.
+  // If we set width, height auto.
+  
+  for(let i=0; i<p.facings; i++) {
+     imagesHtml += `<img src="images/${p.upc}.webp" class="product-img" loading="lazy" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'><text y=\\'50%\\' x=\\'50%\\' dy=\\'0.35em\\' text-anchor=\\'middle\\' font-size=\\'80\\'>☀️</text></svg>'">`;
+  }
+
+  // Width style: flex-grow: facings
+  // Also min-width to ensure visibility
   return `
-    <div class="product-card" onclick="openProductOverlay('${p.upc}')">
-      <div class="product-img-container">
-        <img src="images/${p.upc}.webp" class="product-img" loading="lazy" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'><text y=\\'50%\\' x=\\'50%\\' dy=\\'0.35em\\' text-anchor=\\'middle\\' font-size=\\'80\\'>☀️</text></svg>'">
+    <div class="product-card-shelf" style="flex-grow: ${p.facings}; flex-basis: ${p.facings * 40}px;" onclick="openProductOverlay('${p.upc}')">
+      <div class="product-img-group">
+        ${imagesHtml}
         ${p.isNew ? '<span class="badge new">NEW</span>' : ''}
         ${p.srp ? '<span class="badge srp">SRP</span>' : ''}
       </div>
-      <div class="product-info">
-        <div class="product-name">${p.name}</div>
-        <div class="product-upc">${p.upc.replace(/^0+/, '')}</div>
-      </div>
+      <!-- Position number overlay? -->
+      <div class="pos-badge">${p.position}</div>
     </div>
   `;
 }
@@ -438,37 +481,73 @@ function stopScanner() {
 
 // Search & Overlay
 function handleUpcSearch(upc) {
-  // Normalize UPC? (strip leading zeros?)
-  // Data has leading zeros (e.g. 000868...)
-  // Scanned might not.
-  // Best to check exact match, then try adding/removing zeros.
-  
   let found = findProduct(upc);
   let redirectInfo = null;
   
   if (!found) {
-    // Check redirects
-    // Redirect keys might vary in zeros too.
-    // Let's normalize everything to strings without leading zeros for comparison
-    const normUpc = upc.replace(/^0+/, '');
+    // Fuzzy match logic
+    // 1. Exact Match on stored UPC (which is stripped of leading zeros already in data/json)
+    // 2. Scan might have leading zeros -> strip them
+    // 3. Scan might be missing leading zeros -> add them? (Unlikely if data is stripped)
+    // 4. Scan might have check digit (last digit) -> drop it?
+    // 5. Scan might have BOTH leading zeros and check digit
     
-    // check redirects
+    const cleanScan = upc.replace(/^0+/, ''); // Strip leading zeros from input
+    
+    // Try without check digit (last char)
+    const scanNoCheck = cleanScan.length > 1 ? cleanScan.slice(0, -1) : cleanScan;
+    
+    // Try strategies against products
+    // Our products store UPCs with NO leading zeros (based on process_csv.py logic)
+    // But let's check what the actual data is.
+    
+    const candidates = [cleanScan, scanNoCheck];
+    
+    // Check against redirect keys too (which might need normalization)
     for (let old in upcRedirects) {
-      if (old.replace(/^0+/, '') === normUpc) {
-        const newUpc = upcRedirects[old];
-        found = findProduct(newUpc);
-        if (found) {
-          redirectInfo = { old: upc, new: newUpc };
+        const cleanOld = old.replace(/^0+/, '');
+        if (candidates.includes(cleanOld)) {
+             const newUpc = upcRedirects[old];
+             found = findProduct(newUpc);
+             if (found) {
+                 redirectInfo = { old: upc, new: newUpc };
+                 break;
+             }
         }
-        break;
-      }
     }
     
     if (!found) {
-        // Try to match scanned UPC with leading zeros in product list
-        // E.g. scan 868... need to find 000868...
-        // The simple way: check endsWith
-        found = products.find(p => p.upc.replace(/^0+/, '') === normUpc);
+        // Search in products
+        found = products.find(p => {
+            const pUpc = p.upc.replace(/^0+/, '');
+            // Check exact match with clean scan
+            if (pUpc === cleanScan) return true;
+            // Check match if we drop last digit from scan (e.g. scanned GTIN-13 vs stored UPC-A)
+            // Or vice versa?
+            // "database doesn't carry the leading zero's or the last digit on all of them"
+            
+            // So DB UPC might be: "8680068785"
+            // Scan might be: "0086800687850" (GTIN) -> Clean: "86800687850" -> NoCheck: "8680068785" (MATCH!)
+            
+            if (pUpc === scanNoCheck) return true;
+            
+            // Also, maybe DB has check digit but scan doesn't? (Less likely for scanner, but possible manual entry)
+            // Or DB is missing check digit (very common for "UPC-A" stored as 11 digits or 12 without check)
+            
+            // What if DB is "8680068785" (10 digits)
+            // And scan is "86800687855" (11 digits)?
+            
+            // Let's try: does the Product UPC start with the Scan (or vice versa)?
+            // Be careful with short partial matches.
+            
+            if (pUpc.length > 8 && (pUpc.startsWith(cleanScan) || cleanScan.startsWith(pUpc))) {
+                 // partial match logic - risky but requested "fuzzy matching"
+                 // If lengths differ by 1 digit (check digit)
+                 if (Math.abs(pUpc.length - cleanScan.length) === 1) return true;
+            }
+            
+            return false;
+        });
     }
   }
   
@@ -480,6 +559,9 @@ function handleUpcSearch(upc) {
 }
 
 function findProduct(upc) {
+  // Direct lookup
+  // We need to account for the fact that findProduct is called with "newUpc" from redirect
+  // which comes from the JSON value.
   return products.find(p => p.upc === upc);
 }
 
@@ -506,7 +588,7 @@ function openProductOverlay(upc, redirect=null) {
 }
 
 function renderMiniPog(activeProduct) {
-  const container = document.getElementById('mini-pog');
+  const container = document.getElementById('mini-pog-container');
   // Render current side shelves
   const sideProds = products.filter(p => p.segment === activeProduct.segment);
   
@@ -517,6 +599,7 @@ function renderMiniPog(activeProduct) {
     let itemsHtml = '';
     shelfItems.forEach(item => {
       const isTarget = item.upc === activeProduct.upc;
+      // flex-grow based on facings
       itemsHtml += `<div class="mini-item ${isTarget ? 'highlight' : ''}" style="flex: ${item.facings}"></div>`;
     });
     

@@ -25,6 +25,7 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   padding-bottom: 70px; /* Space for bottom nav */
+  overscroll-behavior-y: contain; /* Prevent pull-to-refresh */
 }
 
 h1, h2, h3, h4 {
@@ -214,92 +215,123 @@ header {
   border-color: var(--text-dim);
 }
 
-/* Shelf Grid */
+/* Shelf Grid & Rows */
 .browse-view {
   padding: var(--spacing);
+  overflow-x: auto; /* Allow side scrolling if needed */
 }
 
+/* Shelf Container */
 .shelf-container {
   margin-bottom: 32px;
+  border-bottom: 4px solid #444; /* Shelf look */
+  padding-bottom: 0;
+  /* background: #1a1a1a; Removed background to look more like open shelves or keep it? */
+  background: transparent;
 }
 
 .shelf-header {
   font-size: 0.9rem;
   color: var(--text-dim);
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--surface-2);
+  margin-bottom: 4px;
   padding-bottom: 4px;
   display: flex;
   justify-content: space-between;
 }
 
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 12px;
+/* 
+   Product Shelf Row 
+   - Flex container
+   - Items align to bottom (flex-end)
+   - No wrapping (single row)
+   - Scrollable horizontally
+*/
+.product-shelf-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end; 
+  gap: 2px;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  min-height: 100px; /* Ensure some height */
 }
 
-.product-card {
-  background: var(--surface);
-  border-radius: var(--border-radius);
-  overflow: hidden;
+/* 
+   Product Card on Shelf
+   - Flex-grow logic handled in JS inline style
+   - Relative for badge positioning
+*/
+.product-card-shelf {
   position: relative;
+  /* background: var(--surface); Removed background to make images stand out alone on shelf? 
+     Or keep slight background for touch target? */
+  /* background: rgba(255, 255, 255, 0.05); */
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end; /* Push content to bottom */
+  min-width: 30px; /* Minimum clickable width */
+  border-left: 1px solid rgba(255,255,255,0.1); /* Separator */
+  border-right: 1px solid rgba(255,255,255,0.1);
 }
 
-.product-img-container {
-  aspect-ratio: 1;
-  background: #fff;
+.product-img-group {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  /* background: #fff;  Removed white background to have transparent PNGs sit on shelf? 
+     But webp images usually have backgrounds.
+     Let's keep white background for product visibility against dark theme? */
+  /* background: #fff; */ 
+  /* If images are cutouts, transparent is better. If full packs, white is safer. 
+     Prompt image suggests they are cutouts sitting on a shelf. 
+     But our images are likely rectangular packs. */
+  padding: 0;
   position: relative;
+  width: 100%;
 }
 
 .product-img {
-  width: 100%;
-  height: 100%;
+  width: 100%; /* Stretch to fill the flex unit width */
+  height: auto; 
+  max-height: 120px; /* Constrain height so tall items don't break layout */
   object-fit: contain;
+  display: block;
+  /* Ensure bottom anchor */
+  margin-bottom: 0;
 }
 
-.placeholder-img {
-  font-size: 2rem;
-  color: #ccc;
-}
-
-.product-info {
-  padding: 8px;
-  font-size: 0.8rem;
-}
-
-.product-name {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 4px;
-}
-
-.product-upc {
-  color: var(--text-dim);
-  font-size: 0.7rem;
+.pos-badge {
+  position: absolute;
+  bottom: -16px; /* Below the shelf? Or on the shelf edge? */
+  /* Let's put it on the product at bottom */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 0.6rem;
+  text-align: center;
+  padding: 1px 0;
+  z-index: 20;
 }
 
 .badge {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  font-size: 0.6rem;
-  padding: 2px 4px;
-  border-radius: 4px;
+  top: 0;
+  left: 0;
+  font-size: 0.5rem;
+  padding: 1px 2px;
+  border-radius: 2px;
   color: #fff;
   font-weight: bold;
+  z-index: 10;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
 .badge.new { background: var(--new-badge); }
-.badge.srp { background: var(--srp-badge); right: 4px; left: auto; }
-.badge.change { background: var(--change-badge); }
+.badge.srp { background: var(--srp-badge); right: 0; left: auto; }
 
 /* Scan View */
 .scan-view {
@@ -407,6 +439,10 @@ header {
   color: var(--text);
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+.detail-img-container {
+    text-align: center;
 }
 
 .detail-img {
