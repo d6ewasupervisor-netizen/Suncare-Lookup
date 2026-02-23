@@ -632,11 +632,47 @@ function openProductOverlay(upc, redirect=null) {
   // Events
   document.getElementById('close-overlay').onclick = () => {
     document.querySelector('.overlay').remove();
+    focusProductInBrowse(p);
   };
   
   document.getElementById('view-pdf').onclick = () => {
     openPdfViewer();
   };
+}
+
+function focusProductInBrowse(product) {
+  const browseView = document.getElementById('browse-view');
+  if (!browseView || !product) return;
+
+  // Switch to browse tab
+  const tabs = document.querySelectorAll('.tab-btn');
+  const views = {
+    'browse': browseView,
+    'scan': document.getElementById('scan-view'),
+    'upc': document.getElementById('upc-view')
+  };
+
+  tabs.forEach(b => b.classList.remove('active'));
+  const browseTab = document.querySelector('.tab-btn[data-tab="browse"]');
+  if (browseTab) browseTab.classList.add('active');
+
+  Object.values(views).forEach(v => {
+    if (v) v.style.display = 'none';
+  });
+  browseView.style.display = 'block';
+  stopScanner();
+
+  // Navigate to product side and shelf
+  currentSide = product.segment;
+  renderShelves();
+  renderBottomNav();
+
+  setTimeout(() => {
+    const shelfRow = document.getElementById(`shelf-row-${product.shelf}`);
+    if (shelfRow) {
+      shelfRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 0);
 }
 
 function renderMiniPog(activeProduct) {
