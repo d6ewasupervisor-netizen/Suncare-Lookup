@@ -18,6 +18,12 @@
   box-sizing: border-box;
 }
 
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   margin: 0;
   font-family: var(--font-family);
@@ -220,6 +226,9 @@ header {
 .browse-view {
   padding: var(--spacing);
   overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Shelf Container */
@@ -256,9 +265,9 @@ header {
   width: var(--row-width, 100%);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 2px;
+  padding: 0 16px 2px 0;
   min-height: 100px; /* Ensure some height */
-  touch-action: pan-x;
+  touch-action: pan-x pan-y;
 }
 
 /* 
@@ -276,8 +285,8 @@ header {
   flex-direction: column;
   justify-content: flex-end; /* Push content to bottom */
   flex: 0 0 auto;
-  width: calc(var(--width-in, 2.5) * var(--facings, 1) * var(--inch-scale, 8px));
-  height: calc(var(--height-in, 6) * var(--inch-scale, 8px));
+  width: calc(var(--width-in, 2.5) * var(--facings, 1) * var(--inch-scale, 7px));
+  height: calc(var(--height-in, 6) * var(--inch-scale, 7px));
   padding: 2px;
   min-width: 30px; /* Minimum clickable width */
   border-left: 1px solid rgba(255,255,255,0.1); /* Separator */

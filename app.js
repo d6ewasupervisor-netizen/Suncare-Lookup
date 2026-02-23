@@ -188,7 +188,7 @@ async function init() {
 
 const DEFAULT_WIDTH_IN = 2.5;
 const DEFAULT_HEIGHT_IN = 6.0;
-const BASE_PX_PER_IN = 8;
+const BASE_PX_PER_IN = 7;
 
 function getProductWidthIn(p) {
   const widthIn = Number(p.widthIn);
@@ -480,6 +480,7 @@ function setupGestures() {
   let touchEndY = 0;
   
   const view = document.getElementById('browse-view');
+  const edgeThreshold = 32;
   
   view.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
@@ -495,14 +496,17 @@ function setupGestures() {
   function handleSwipe() {
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
-    const minSwipe = 120;
-    const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY) * 1.5;
+    const minSwipe = 200;
+    const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY) * 2;
+    const isEdgeSwipe =
+      touchStartX <= edgeThreshold ||
+      touchStartX >= window.innerWidth - edgeThreshold;
 
-    if (isHorizontal && deltaX < -minSwipe) {
+    if (isHorizontal && isEdgeSwipe && deltaX < -minSwipe) {
       // Swipe Left -> Next Side
       if (currentSide < planogram.sides) changeSide(currentSide + 1);
     }
-    if (isHorizontal && deltaX > minSwipe) {
+    if (isHorizontal && isEdgeSwipe && deltaX > minSwipe) {
       // Swipe Right -> Prev Side
       if (currentSide > 1) changeSide(currentSide - 1);
     }
