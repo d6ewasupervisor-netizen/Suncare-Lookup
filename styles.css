@@ -629,5 +629,156 @@ header {
   color: #fff;
 }
 
+/* Landscape mode on small screens – compact header & footer */
+@media (orientation: landscape) and (max-height: 500px) {
+
+  body {
+    padding-bottom: 40px;
+  }
+
+  /* --- Header --- */
+  header {
+    padding: 4px var(--spacing);
+  }
+
+  .header-top {
+    margin-bottom: 2px;
+  }
+
+  .app-title {
+    font-size: 0.8rem;
+  }
+
+  .store-info {
+    font-size: 0.7rem;
+  }
+
+  .live-date {
+    font-size: 0.65rem;
+  }
+
+  .btn-change-store {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    margin-top: 2px;
+  }
+
+  .tab-nav {
+    margin-top: 4px;
+    gap: 8px;
+  }
+
+  .tab-btn {
+    padding: 4px 0;
+    font-size: 0.8rem;
+  }
+
+  .filter-chips {
+    padding: 4px var(--spacing);
+    gap: 6px;
+  }
+
+  .chip {
+    padding: 3px 8px;
+    font-size: 0.75rem;
+  }
+
+  /* --- Bottom Nav --- */
+  .bottom-nav {
+    padding: 4px 8px;
+  }
+
+  .nav-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  /* --- Toast position --- */
+  .toast {
+    bottom: 48px;
+  }
+
+  /* --- Browse view --- */
+  .browse-view {
+    padding: 8px var(--spacing);
+  }
+
+  .shelf-container {
+    margin-bottom: 16px;
+  }
+
+  /* --- Scan view --- */
+  .scan-view {
+    height: calc(100vh - 90px);
+  }
+
+  /* --- Overlay / product detail --- */
+  .overlay-content {
+    height: 90vh;
+  }
+
+  .detail-img {
+    max-height: 120px;
+    margin-bottom: 8px;
+  }
+
+  .detail-title {
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+
+  .detail-upc {
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+
+  .location-grid {
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  .loc-box {
+    padding: 4px;
+  }
+
+  .mini-pog {
+    padding: 8px;
+    margin-bottom: 12px;
+  }
+
+  /* --- Landing page --- */
+  .landing-container {
+    padding: 8px var(--spacing);
+    height: 100vh;
+  }
+
+  .landing-title {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+  .landing-subtitle {
+    margin-bottom: 16px;
+  }
+
+  .preview-card {
+    padding: 12px;
+  }
+
+  .preview-stats {
+    margin-bottom: 12px;
+  }
+
+  .btn-primary {
+    padding: 8px 16px;
+  }
+
+  select {
+    padding: 8px;
+    margin-bottom: 12px;
+  }
+}
+
 /* Utility */
 .hidden { display: none !important; }
