@@ -3,6 +3,7 @@ const ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './favicon.svg',
   './styles.css',
   './app.js',
   'https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js'
@@ -41,6 +42,16 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
           return response;
         });
+      })
+    );
+    return;
+  }
+
+  if (url.pathname.endsWith('/favicon.ico')) {
+    const faviconUrl = new URL('./favicon.svg', self.location).href;
+    event.respondWith(
+      caches.match(faviconUrl).then((cached) => {
+        return cached || fetch(faviconUrl);
       })
     );
     return;
