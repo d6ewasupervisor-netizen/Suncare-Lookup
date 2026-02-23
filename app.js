@@ -6,6 +6,7 @@ let currentSide = 1;
 let currentFilter = 'all'; // all, new, srp
 let products = [];
 let upcRedirects = {};
+let removedProducts = [];
 let html5QrCode;
 let deferredPrompt;
 let resizeBound = false;
@@ -160,9 +161,12 @@ const pdfViewerTemplate = (url) => `
   </div>
 `;
 
-function showToast(message, duration = 1500) {
+function showToast(message, duration = 1500, type = 'default') {
   const toast = document.getElementById('toast');
   if (!toast) return;
+
+  toast.classList.remove('warning');
+  if (type === 'warning') toast.classList.add('warning');
 
   toast.innerText = message;
   toast.classList.add('show');
@@ -184,7 +188,7 @@ async function init() {
 
 const DEFAULT_WIDTH_IN = 2.5;
 const DEFAULT_HEIGHT_IN = 6.0;
-const BASE_PX_PER_IN = 12;
+const BASE_PX_PER_IN = 11;
 
 function getProductWidthIn(p) {
   const widthIn = Number(p.widthIn);
@@ -240,6 +244,7 @@ function loadApp(storeId, data) {
   planogram = data;
   products = data.products;
   upcRedirects = data.upcRedirects || {};
+  removedProducts = data.removedProducts || [];
   currentSide = 1;
   
   // Render structure
@@ -528,81 +533,66 @@ function stopScanner() {
   }
 }
 
+function normalizeUpcInput(value) {
+  return value.replace(/^0+/, '');
+}
+
+function getUpcCandidates(raw) {
+  const cleanScan = normalizeUpcInput(raw);
+  const scanNoCheck = cleanScan.length > 1 ? cleanScan.slice(0, -1) : cleanScan;
+  return { cleanScan, scanNoCheck, candidates: [cleanScan, scanNoCheck] };
+}
+
+function findByFuzzy(upc, items) {
+  const { cleanScan, scanNoCheck, candidates } = getUpcCandidates(upc);
+
+  return items.find(p => {
+    const pUpc = normalizeUpcInput(p.upc);
+    if (candidates.includes(pUpc)) return true;
+    if (pUpc === scanNoCheck) return true;
+
+    if (pUpc.length > 8 && (pUpc.startsWith(cleanScan) || cleanScan.startsWith(pUpc))) {
+      if (Math.abs(pUpc.length - cleanScan.length) === 1) return true;
+    }
+
+    return false;
+  });
+}
+
 // Search & Overlay
 function handleUpcSearch(upc) {
   let found = findProduct(upc);
   let redirectInfo = null;
   
   if (!found) {
-    // Fuzzy match logic
-    // 1. Exact Match on stored UPC (which is stripped of leading zeros already in data/json)
-    // 2. Scan might have leading zeros -> strip them
-    // 3. Scan might be missing leading zeros -> add them? (Unlikely if data is stripped)
-    // 4. Scan might have check digit (last digit) -> drop it?
-    // 5. Scan might have BOTH leading zeros and check digit
-    
-    const cleanScan = upc.replace(/^0+/, ''); // Strip leading zeros from input
-    
-    // Try without check digit (last char)
-    const scanNoCheck = cleanScan.length > 1 ? cleanScan.slice(0, -1) : cleanScan;
-    
-    // Try strategies against products
-    // Our products store UPCs with NO leading zeros (based on process_csv.py logic)
-    // But let's check what the actual data is.
-    
-    const candidates = [cleanScan, scanNoCheck];
+    const { candidates } = getUpcCandidates(upc);
     
     // Check against redirect keys too (which might need normalization)
     for (let old in upcRedirects) {
-        const cleanOld = old.replace(/^0+/, '');
-        if (candidates.includes(cleanOld)) {
-             const newUpc = upcRedirects[old];
-             found = findProduct(newUpc);
-             if (found) {
-                 redirectInfo = { old: upc, new: newUpc };
-                 break;
-             }
+      const cleanOld = normalizeUpcInput(old);
+      if (candidates.includes(cleanOld)) {
+        const newUpc = upcRedirects[old];
+        found = findProduct(newUpc);
+        if (found) {
+          redirectInfo = { old: upc, new: newUpc };
+          break;
         }
+      }
     }
     
     if (!found) {
-        // Search in products
-        found = products.find(p => {
-            const pUpc = p.upc.replace(/^0+/, '');
-            // Check exact match with clean scan
-            if (pUpc === cleanScan) return true;
-            // Check match if we drop last digit from scan (e.g. scanned GTIN-13 vs stored UPC-A)
-            // Or vice versa?
-            // "database doesn't carry the leading zero's or the last digit on all of them"
-            
-            // So DB UPC might be: "8680068785"
-            // Scan might be: "0086800687850" (GTIN) -> Clean: "86800687850" -> NoCheck: "8680068785" (MATCH!)
-            
-            if (pUpc === scanNoCheck) return true;
-            
-            // Also, maybe DB has check digit but scan doesn't? (Less likely for scanner, but possible manual entry)
-            // Or DB is missing check digit (very common for "UPC-A" stored as 11 digits or 12 without check)
-            
-            // What if DB is "8680068785" (10 digits)
-            // And scan is "86800687855" (11 digits)?
-            
-            // Let's try: does the Product UPC start with the Scan (or vice versa)?
-            // Be careful with short partial matches.
-            
-            if (pUpc.length > 8 && (pUpc.startsWith(cleanScan) || cleanScan.startsWith(pUpc))) {
-                 // partial match logic - risky but requested "fuzzy matching"
-                 // If lengths differ by 1 digit (check digit)
-                 if (Math.abs(pUpc.length - cleanScan.length) === 1) return true;
-            }
-            
-            return false;
-        });
+      found = findByFuzzy(upc, products);
     }
   }
   
   if (found) {
     openProductOverlay(found.upc, redirectInfo);
   } else {
+    const removed = findByFuzzy(upc, removedProducts);
+    if (removed) {
+      showToast(`Removed from planogram: ${removed.name}`, 2500, 'warning');
+      return;
+    }
     alert(`Product ${upc} not found on this planogram.`);
   }
 }

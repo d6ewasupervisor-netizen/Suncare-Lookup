@@ -23,6 +23,12 @@ if os.path.exists(dimensions_path):
         data = json.load(f)
         dimensions = data.get('dimensions', {})
 
+removed_by_planogram = {}
+removed_path = os.path.join('data', 'removed-products.json')
+if os.path.exists(removed_path):
+    with open(removed_path, 'r') as f:
+        removed_by_planogram = json.load(f)
+
 def get_product_name(upc, default_name):
     clean_upc = normalize_upc(upc)
     if clean_upc in product_descriptions:
@@ -31,6 +37,7 @@ def get_product_name(upc, default_name):
 
 def process_csv_layout(csv_path, id_val, name_val, subtitle_val, pog_num, live_date, sides, shelves, redirects, allow_new_badges=True):
     products = []
+    removed_products = []
     
     with open(csv_path, 'r') as f:
         reader = csv.DictReader(f)
@@ -43,9 +50,22 @@ def process_csv_layout(csv_path, id_val, name_val, subtitle_val, pog_num, live_d
             if not allow_new_badges:
                 is_new = False
 
-            p = {
+            is_deleted = True if row.get('Delete Flag') == '1' else False
+            base = {
                 "upc": clean_upc_for_img,
                 "name": get_product_name(raw_upc, row['Product Name']),
+            }
+            if upc in dimensions:
+                dims = dimensions[upc]
+                base["widthIn"] = dims.get("widthIn")
+                base["heightIn"] = dims.get("heightIn")
+
+            if is_deleted:
+                removed_products.append(base)
+                continue
+
+            p = {
+                **base,
                 "segment": int(row['POG Segment']),
                 "shelf": int(row['Fixture']),
                 "position": int(row['Position']),
@@ -55,13 +75,15 @@ def process_csv_layout(csv_path, id_val, name_val, subtitle_val, pog_num, live_d
                 "isChange": False, 
                 "srp": "SRP" if row.get('SRP') == 'SRP' else ""
             }
-            if upc in dimensions:
-                dims = dimensions[upc]
-                p["widthIn"] = dims.get("widthIn")
-                p["heightIn"] = dims.get("heightIn")
             products.append(p)
             
     products.sort(key=lambda x: (x['segment'], x['shelf'], x['position']))
+
+    removed_from_pdf = removed_by_planogram.get(id_val, [])
+    removed_map = {p["upc"]: p for p in removed_products}
+    for p in removed_from_pdf:
+        if p["upc"] not in removed_map:
+            removed_map[p["upc"]] = p
 
     data = {
         "id": id_val,
@@ -73,6 +95,7 @@ def process_csv_layout(csv_path, id_val, name_val, subtitle_val, pog_num, live_d
         "shelves": shelves,
         "totalProducts": len(products),
         "upcRedirects": redirects,
+        "removedProducts": list(removed_map.values()),
         "products": products
     }
     
