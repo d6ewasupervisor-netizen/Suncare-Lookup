@@ -550,6 +550,33 @@ header {
   gap: 8px;
 }
 
+.overlay-nav-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn-overlay-nav {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-overlay-nav.scan-another {
+  background: var(--primary);
+  color: #000;
+}
+
+.btn-overlay-nav.return-browse {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--text-dim);
+}
+
 .pdf-link {
   display: block;
   text-align: center;
@@ -745,6 +772,15 @@ header {
   .mini-pog {
     padding: 8px;
     margin-bottom: 12px;
+  }
+
+  .overlay-nav-buttons {
+    margin-top: 10px;
+  }
+
+  .btn-overlay-nav {
+    padding: 8px 12px;
+    font-size: 0.85rem;
   }
 
   /* --- Landing page --- */
