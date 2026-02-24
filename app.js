@@ -394,7 +394,7 @@ function renderShelves() {
 
     const shelfScale = (shelfWidthIn > 0
       ? targetRowWidthPx / shelfWidthIn
-      : BASE_PX_PER_IN) * 0.9;
+      : BASE_PX_PER_IN) * 1.08;
 
     shelfDiv.innerHTML = `
       <div class="shelf-header">

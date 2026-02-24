@@ -260,7 +260,7 @@ header {
   display: flex;
   flex-direction: row;
   align-items: flex-end; 
-  gap: 12px;
+  gap: 2px;
   flex-wrap: nowrap;
   width: var(--row-width, 100%);
   overflow-x: auto;
@@ -287,10 +287,10 @@ header {
   flex: 0 0 auto;
   width: calc(var(--width-in, 2.5) * var(--facings, 1) * var(--inch-scale, 7.2px));
   height: calc(var(--height-in, 6) * var(--inch-scale, 7.2px));
-  padding: 4px;
-  min-width: 30px; /* Minimum clickable width */
-  border-left: 1px solid rgba(255,255,255,0.1); /* Separator */
-  border-right: 1px solid rgba(255,255,255,0.1);
+  padding: 1px;
+  min-width: 30px;
+  border-left: none;
+  border-right: none;
 }
 
 
