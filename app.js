@@ -82,7 +82,7 @@ const browseTemplate = () => `
   
   <div class="upc-view" id="upc-view">
     <div class="upc-input-group">
-      <input type="text" class="upc-input" id="manual-upc" placeholder="Enter UPC (e.g. 8680068785)">
+      <input type="text" class="upc-input" id="manual-upc" placeholder="Enter last 4+ digits of UPC or name" autocomplete="off">
       <button class="btn-primary" id="lookup-upc">Search</button>
     </div>
     <div id="upc-result"></div>
@@ -322,9 +322,48 @@ function setupNavigation() {
   });
 
   // Manual UPC
-  document.getElementById('lookup-upc').addEventListener('click', () => {
-    const input = document.getElementById('manual-upc').value.trim();
-    if (input) handleUpcSearch(input);
+  const upcInput = document.getElementById('manual-upc');
+  const upcBtn = document.getElementById('lookup-upc');
+  let upcDebounce = null;
+
+  upcBtn.addEventListener('click', () => {
+    const val = upcInput.value.trim();
+    if (val) handleUpcSearch(val);
+  });
+
+  upcInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const val = upcInput.value.trim();
+      if (val) handleUpcSearch(val);
+    }
+  });
+
+  upcInput.addEventListener('input', () => {
+    clearTimeout(upcDebounce);
+    const val = upcInput.value.trim();
+    const resultDiv = document.getElementById('upc-result');
+    if (val.length < 3) { resultDiv.innerHTML = ''; return; }
+    upcDebounce = setTimeout(() => {
+      const matches = findAllFuzzy(val, products);
+      if (matches.length === 0) {
+        resultDiv.innerHTML = `<div class="upc-no-results">No matches</div>`;
+      } else {
+        resultDiv.innerHTML = `
+          <div class="upc-results-header">${matches.length} product${matches.length > 1 ? 's' : ''} found</div>
+          <div class="upc-results-list">
+            ${matches.map(p => `
+              <div class="upc-result-item" onclick="openProductOverlay('${p.upc}')">
+                <img src="images/${p.upc}.webp" class="upc-result-thumb" onerror="this.style.display='none'">
+                <div class="upc-result-info">
+                  <div class="upc-result-name">${p.name}</div>
+                  <div class="upc-result-detail">UPC: ${p.upc.replace(/^0+/, '')} · Side ${p.segment} · Shelf ${p.shelf} · Pos ${p.position}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+    }, 250);
   });
 }
 
@@ -394,7 +433,7 @@ function renderShelves() {
 
     const baseScale = (shelfWidthIn > 0
       ? targetRowWidthPx / shelfWidthIn
-      : BASE_PX_PER_IN) * 1.08;
+      : BASE_PX_PER_IN) * 1.296;
     const shelfScale = planogram.id === 'endcap' ? baseScale * 1.2 : baseScale;
 
     shelfDiv.innerHTML = `
@@ -580,42 +619,94 @@ function findByFuzzy(upc, items) {
   });
 }
 
+function findAllFuzzy(query, items) {
+  const q = normalizeUpcInput(query).toLowerCase();
+  if (!q) return [];
+
+  const scored = [];
+  for (const p of items) {
+    const pUpc = normalizeUpcInput(p.upc);
+    const pName = (p.name || '').toLowerCase();
+    let score = 0;
+
+    if (pUpc === q) { score = 100; }
+    else if (pUpc.endsWith(q)) { score = 90; }
+    else if (pUpc.startsWith(q)) { score = 80; }
+    else if (pUpc.includes(q)) { score = 70; }
+    else if (pName.includes(q)) { score = 50; }
+    else if (q.length >= 3) {
+      const noCheck = q.length > 1 ? q.slice(0, -1) : q;
+      if (pUpc.endsWith(noCheck) || pUpc.includes(noCheck)) { score = 40; }
+    }
+
+    if (score > 0) scored.push({ product: p, score });
+  }
+
+  scored.sort((a, b) => b.score - a.score || a.product.position - b.product.position);
+  return scored.map(s => s.product);
+}
+
 // Search & Overlay
 function handleUpcSearch(upc) {
+  const resultDiv = document.getElementById('upc-result');
+
   let found = findProduct(upc);
   let redirectInfo = null;
-  
-  if (!found) {
-    const { candidates } = getUpcCandidates(upc);
-    
-    // Check against redirect keys too (which might need normalization)
-    for (let old in upcRedirects) {
-      const cleanOld = normalizeUpcInput(old);
-      if (candidates.includes(cleanOld)) {
-        const newUpc = upcRedirects[old];
-        found = findProduct(newUpc);
-        if (found) {
-          redirectInfo = { old: upc, new: newUpc };
-          break;
-        }
+
+  if (found) {
+    openProductOverlay(found.upc);
+    if (resultDiv) resultDiv.innerHTML = '';
+    return;
+  }
+
+  const { candidates } = getUpcCandidates(upc);
+  for (let old in upcRedirects) {
+    const cleanOld = normalizeUpcInput(old);
+    if (candidates.includes(cleanOld)) {
+      const newUpc = upcRedirects[old];
+      found = findProduct(newUpc);
+      if (found) {
+        redirectInfo = { old: upc, new: newUpc };
+        openProductOverlay(found.upc, redirectInfo);
+        if (resultDiv) resultDiv.innerHTML = '';
+        return;
       }
     }
-    
-    if (!found) {
-      found = findByFuzzy(upc, products);
-    }
   }
-  
-  if (found) {
-    openProductOverlay(found.upc, redirectInfo);
-  } else {
-    const removed = findByFuzzy(upc, removedProducts);
-    if (removed) {
-      showToast(`Removed from planogram: ${removed.name}`, 2500, 'warning');
-      return;
-    }
-    alert(`Product ${upc} not found on this planogram.`);
+
+  const matches = findAllFuzzy(upc, products);
+  const removedMatches = findAllFuzzy(upc, removedProducts);
+
+  if (matches.length === 1) {
+    openProductOverlay(matches[0].upc);
+    if (resultDiv) resultDiv.innerHTML = '';
+    return;
   }
+
+  if (matches.length > 1) {
+    resultDiv.innerHTML = `
+      <div class="upc-results-header">${matches.length} products found</div>
+      <div class="upc-results-list">
+        ${matches.map(p => `
+          <div class="upc-result-item" onclick="openProductOverlay('${p.upc}')">
+            <img src="images/${p.upc}.webp" class="upc-result-thumb" onerror="this.style.display='none'">
+            <div class="upc-result-info">
+              <div class="upc-result-name">${p.name}</div>
+              <div class="upc-result-detail">UPC: ${p.upc.replace(/^0+/, '')} · Side ${p.segment} · Shelf ${p.shelf} · Pos ${p.position}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    return;
+  }
+
+  if (removedMatches.length > 0) {
+    showToast(`Removed from planogram: ${removedMatches[0].name}`, 2500, 'warning');
+    return;
+  }
+
+  resultDiv.innerHTML = `<div class="upc-no-results">No products found for "${upc}"</div>`;
 }
 
 function findProduct(upc) {

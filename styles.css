@@ -385,6 +385,73 @@ header {
   font-size: 1rem;
 }
 
+.upc-results-header {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  padding: 12px 0 6px;
+}
+
+.upc-results-list {
+  max-height: 60vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--surface-2);
+}
+
+.upc-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--surface-2);
+  transition: background 0.15s;
+}
+
+.upc-result-item:last-child {
+  border-bottom: none;
+}
+
+.upc-result-item:active {
+  background: var(--surface-2);
+}
+
+.upc-result-thumb {
+  width: 40px;
+  height: 52px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
+.upc-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.upc-result-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.upc-result-detail {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.upc-no-results {
+  padding: 16px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
 /* Bottom Nav */
 .bottom-nav {
   position: fixed;
