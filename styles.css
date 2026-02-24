@@ -260,7 +260,7 @@ header {
   display: flex;
   flex-direction: row;
   align-items: flex-end; 
-  gap: 6px;
+  gap: 12px;
   flex-wrap: nowrap;
   width: var(--row-width, 100%);
   overflow-x: auto;
@@ -315,8 +315,8 @@ header {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: bottom center;
   display: block;
-  /* Ensure bottom anchor */
   margin-bottom: 0;
 }
 

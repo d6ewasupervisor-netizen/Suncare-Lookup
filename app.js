@@ -385,9 +385,9 @@ function renderShelves() {
 
     const label = s === maxShelf ? 'TOP' : (s === 1 ? 'BOTTOM' : '');
 
-    const shelfScale = shelfWidthIn > 0
+    const shelfScale = (shelfWidthIn > 0
       ? targetRowWidthPx / shelfWidthIn
-      : BASE_PX_PER_IN;
+      : BASE_PX_PER_IN) * 0.9;
 
     shelfDiv.innerHTML = `
       <div class="shelf-header">
