@@ -260,7 +260,7 @@ header {
   display: flex;
   flex-direction: row;
   align-items: flex-end; 
-  gap: 2px;
+  gap: 6px;
   flex-wrap: nowrap;
   width: var(--row-width, 100%);
   overflow-x: auto;
@@ -285,9 +285,9 @@ header {
   flex-direction: column;
   justify-content: flex-end; /* Push content to bottom */
   flex: 0 0 auto;
-  width: calc(var(--width-in, 2.5) * var(--facings, 1) * var(--inch-scale, 7px));
-  height: calc(var(--height-in, 6) * var(--inch-scale, 7px));
-  padding: 2px;
+  width: calc(var(--width-in, 2.5) * var(--facings, 1) * var(--inch-scale, 9px));
+  height: calc(var(--height-in, 6) * var(--inch-scale, 9px));
+  padding: 4px;
   min-width: 30px; /* Minimum clickable width */
   border-left: 1px solid rgba(255,255,255,0.1); /* Separator */
   border-right: 1px solid rgba(255,255,255,0.1);
