@@ -188,7 +188,7 @@ async function init() {
 
 const DEFAULT_WIDTH_IN = 2.5;
 const DEFAULT_HEIGHT_IN = 6.0;
-const BASE_PX_PER_IN = 9;
+const BASE_PX_PER_IN = 7.2;
 
 function getProductWidthIn(p) {
   const widthIn = Number(p.widthIn);
