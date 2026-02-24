@@ -102,7 +102,12 @@ const productOverlayTemplate = (p, redirect=null) => `
       
       ${redirect ? `
         <div class="redirect-banner">
-          ⚠️ UPC Changed — Old: ${redirect.old} → New: ${redirect.new}
+          <div class="redirect-banner-title">&#x1F504; UPC CHANGE DETECTED</div>
+          <div class="redirect-banner-detail">
+            Old UPC: <strong>${redirect.old}</strong><br>
+            New UPC: <strong>${redirect.new}</strong>
+          </div>
+          <div class="redirect-banner-note">Both UPCs are valid for this product. Do NOT discard either version.</div>
         </div>
       ` : ''}
       
@@ -654,7 +659,11 @@ function handleUpcSearch(upc) {
   let redirectInfo = null;
 
   if (found) {
-    openProductOverlay(found.upc);
+    const reverseRedirect = findReverseRedirect(found.upc);
+    if (reverseRedirect) {
+      redirectInfo = { old: reverseRedirect.oldUpc, new: found.upc };
+    }
+    openProductOverlay(found.upc, redirectInfo);
     if (resultDiv) resultDiv.innerHTML = '';
     return;
   }
@@ -702,11 +711,47 @@ function handleUpcSearch(upc) {
   }
 
   if (removedMatches.length > 0) {
-    showToast(`Removed from planogram: ${removedMatches[0].name}`, 2500, 'warning');
+    showRemovedWarning(removedMatches[0]);
     return;
   }
 
   resultDiv.innerHTML = `<div class="upc-no-results">No products found for "${upc}"</div>`;
+}
+
+function findReverseRedirect(productUpc) {
+  const cleanProduct = normalizeUpcInput(productUpc);
+  for (let old in upcRedirects) {
+    const newUpc = normalizeUpcInput(upcRedirects[old]);
+    if (newUpc === cleanProduct) {
+      return { oldUpc: normalizeUpcInput(old), newUpc: cleanProduct };
+    }
+  }
+  return null;
+}
+
+function showRemovedWarning(product) {
+  const existing = document.getElementById('removed-warning-overlay');
+  if (existing) existing.remove();
+
+  const div = document.createElement('div');
+  div.id = 'removed-warning-overlay';
+  div.className = 'removed-warning-overlay';
+  div.innerHTML = `
+    <div class="removed-warning-card">
+      <div class="removed-warning-icon">&#x26D4;</div>
+      <div class="removed-warning-title">ITEM REMOVED FROM PLANOGRAM</div>
+      <div class="removed-warning-name">${product.name}</div>
+      <div class="removed-warning-upc">UPC: ${product.upc}</div>
+      <div class="removed-warning-note">This product is no longer on the current planogram. Do not place on shelf.</div>
+      <button class="btn-primary removed-warning-dismiss" onclick="this.closest('.removed-warning-overlay').remove()">Dismiss</button>
+    </div>
+  `;
+  document.body.appendChild(div);
+
+  setTimeout(() => {
+    const el = document.getElementById('removed-warning-overlay');
+    if (el) el.remove();
+  }, 8000);
 }
 
 function findProduct(upc) {
